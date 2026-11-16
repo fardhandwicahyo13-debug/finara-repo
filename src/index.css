@@ -1,0 +1,170 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Light theme */
+  --canvas: #F8FAFC;
+  --card: #FFFFFF;
+  --text: #131B2E;
+  --muted: #64748B;
+  --border: #E2E8F0;
+  --primary: #4F46E5;
+  --income: #006C49;
+  --expense: #BF0F3C;
+
+  /* Typography scale */
+  --font-heading: 'Plus Jakarta Sans', 'Inter', sans-serif;
+  --font-body: 'Inter', 'Plus Jakarta Sans', sans-serif;
+
+  /* Radius */
+  --radius: 20px;
+  --radius-sm: 10px;
+
+  /* Transitions */
+  --transition: 160ms ease;
+}
+
+/* Dark theme */
+.dark {
+  --dark-canvas: #111827;
+  --dark-card: #1B2435;
+  --dark-text: #EEF0FF;
+  --dark-muted: #AAB5C8;
+  --dark-border: #2A3A5A;
+  --dark-primary: #818CF8;
+  --dark-income: #34D399;
+  --dark-expense: #F87171;
+  --canvas: var(--dark-canvas);
+  --card: var(--dark-card);
+  --text: var(--dark-text);
+  --muted: var(--dark-muted);
+  --border: var(--dark-border);
+  --primary: var(--dark-primary);
+  --income: var(--dark-income);
+  --expense: var(--dark-expense);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--canvas);
+  color: var(--text);
+  margin: 0;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--canvas);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--muted);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+
+/* Utilities */
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Screen reader only */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+/* Focus visible */
+.focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeScale {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.slide-up {
+  animation: slideUp 200ms ease forwards;
+}
+.fade-in {
+  animation: fadeIn 160ms ease forwards;
+}
+.fade-scale {
+  animation: fadeScale 160ms ease forwards;
+}
+
+/* Card hover subtle lift */
+.card-hover {
+  transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+}
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+/* Wallet type badges */
+.badge-cash { color: #4F46E5; }
+.badge-bank { color: #006C49; }
+.badge-e-wallet { color: #6366F1; }
+.badge-other { color: #6B7280; }
+
+@media (prefers-color-scheme: dark) {
+  html:not(.light) body {
+    --canvas: #111827;
+    --card: #1B2435;
+    --text: #EEF0FF;
+    --muted: #AAB5C8;
+    --border: #2A3A5A;
+  }
+}
+
+/* Recharts overrides for dark mode */
+.recharts-cartesian-axis-tick-value,
+.recharts-cartesian-grid-line,
+.recharts-tooltip-wrapper {
+  pointer-events: none;
+}
+
+/* Shell scrim for overlay */
+.scrim {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 40;
+  animation: fadeIn 160ms ease forwards;
+}

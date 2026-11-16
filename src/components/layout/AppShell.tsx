@@ -1,0 +1,84 @@
+import { type ReactNode, useState } from 'react';
+import { NavLink, useLocation } from 'react-router-dom';
+import { Header } from './Header';
+
+export function AppShell({ children }: { children: ReactNode }) {
+  const location = useLocation();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  return (
+    <div className="flex h-screen overflow-hidden bg-canvas">
+      <Sidebar collapsed={!sidebarOpen} setCollapsed={setSidebarOpen} />
+      <div className="flex-1 flex flex-col overflow-hidden">
+        <Header onMenuClick={() => setSidebarOpen(true)} />
+        <main className="flex-1 overflow-auto p-4 sm:p-6 lg:p-8">
+          {children}
+        </main>
+      </div>
+    </div>
+  );
+}
+
+function Sidebar({ collapsed, setCollapsed }: { collapsed: boolean; setCollapsed: (v: boolean) => void }) {
+  return (
+    <aside className={`flex flex-col border-r border-border bg-card transition-all duration-300 ${collapsed ? 'w-[72px]' : 'w-[240px]'}`}>
+      <div className="flex items-center gap-2 h-16 px-4 border-b border-border flex-shrink-0">
+        <div className="w-8 h-8 rounded-xl bg-primary flex items-center justify-center text-primary-foreground font-heading font-bold text-sm">
+          F
+        </div>
+        {!collapsed && <span className="font-heading text-xl font-semibold tracking-tight">Finara</span>}
+      </div>
+      <nav className="flex-1 px-2 py-4 overflow-y-auto">
+        <NavLink to="/overview" className={({ isActive }) => `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium ${isActive ? 'bg-primary/10 text-primary' : 'text-muted-foreground hover:bg-muted hover:text-foreground'}`}>
+          <HomeIcon />
+          {!collapsed && <span>Overview</span>}
+        </NavLink>
+        <NavLink to="/transactions" className={({ isActive }) => `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium ${isActive ? 'bg-primary/10 text-primary' : 'text-muted-foreground hover:bg-muted hover:text-foreground'}`}>
+          <TransactionsIcon />
+          {!collapsed && <span>Transactions</span>}
+        </NavLink>
+        <NavLink to="/wallets" className={({ isActive }) => `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium ${isActive ? 'bg-primary/10 text-primary' : 'text-muted-foreground hover:bg-muted hover:text-foreground'}`}>
+          <WalletIcon />
+          {!collapsed && <span>My Wallets</span>}
+        </NavLink>
+        <NavLink to="/budgets" className={({ isActive }) => `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium ${isActive ? 'bg-primary/10 text-primary' : 'text-muted-foreground hover:bg-muted hover:text-foreground'}`}>
+          <BudgetsIcon />
+          {!collapsed && <span>Budgets</span>}
+        </NavLink>
+        <NavLink to="/savings-goals" className={({ isActive }) => `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium ${isActive ? 'bg-primary/10 text-primary' : 'text-muted-foreground hover:bg-muted hover:text-foreground'}`}>
+          <SavingsIcon />
+          {!collapsed && <span>Savings Goals</span>}
+        </NavLink>
+        <NavLink to="/bills" className={({ isActive }) => `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium ${isActive ? 'bg-primary/10 text-primary' : 'text-muted-foreground hover:bg-muted hover:text-foreground'}`}>
+          <BillsIcon />
+          {!collapsed && <span>Bills &amp; Payments</span>}
+        </NavLink>
+        <NavLink to="/notifications" className={({ isActive }) => `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium ${isActive ? 'bg-primary/10 text-primary' : 'text-muted-foreground hover:bg-muted hover:text-foreground'}`}>
+          <BellIcon />
+          {!collapsed && <span>Notifications</span>}
+        </NavLink>
+      </nav>
+      <div className="px-4 py-4 border-t border-border flex-shrink-0">
+        <div className="flex items-center gap-3 px-2 py-2 rounded-xl bg-muted/20">
+          <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary font-semibold text-sm">U</div>
+          {!collapsed && (
+            <div className="min-w-0">
+              <p className="text-sm font-medium text-foreground truncate">User</p>
+              <p className="text-xs text-muted-foreground truncate">@user</p>
+            </div>
+          )}
+        </div>
+      </div>
+    </aside>
+  );
+}
+
+function HomeIcon() { return <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1m-6 0h6" /></svg>; }
+function TransactionsIcon() { return <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M7 12l3-3 3 3 4-4 7 7V5a1 1 0 00-1-1H7a1 1 0 00-1 1v7z" /></svg>; }
+function WalletIcon() { return <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1m-6 0h6" /></svg>; }
+function BudgetsIcon() { return <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>; }
+function SavingsIcon() { return <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4v11m0-11V19a2 2 0 102 2h-2zm0 0V17.5A2.5 2.5 0 105.5 20H12z" /></svg>; }
+function BillsIcon() { return <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M12 2a2 2 0 00-2 2v12a2 2 0 002 2h4a2 2 0 002-2V4a2 2 0 00-2-2h-4z" /></svg>; }
+function BellIcon() { return <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>; }
+
+export default AppShell;
